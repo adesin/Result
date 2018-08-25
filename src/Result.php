@@ -29,6 +29,11 @@ class Result {
 	public $success = false;
 	
 	/**
+	 * @var integer Код ответа сервера
+	 */
+	public $responseCode = 200;
+	
+	/**
 	 * Метод проверяет, имеет ли результат статус "Успешно"
 	 *
 	 * @return boolean
@@ -63,12 +68,18 @@ class Result {
 	 * @param string $message Сообщение об ошибке
 	 */
 	public function setError($message){
+		$this->setResponseCode(500);
+		
 		$this->success = false;
 		$this->error[] = $message;
 	}
 	
 	public function setData($data){
 		if($data) $this->data = $data;
+	}
+	
+	public function setResponseCode ($code) {
+		$this->responseCode = $code;
 	}
 	
 	/**
@@ -111,6 +122,7 @@ class Result {
 			'success' => $this->success,
 			'message' => $this->lastError(),
 			'data' => $this->data,
+			'code' => $this->responseCode,
 		);
 		
 		return $result;
@@ -123,6 +135,16 @@ class Result {
 	 * @return type
 	 */
 	public function getJSON(){
-		return json_encode($this->getArray());
+		return json_encode($this->getArray(), JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
+	}
+	
+	/**
+	 * Вывод результата
+	 */
+	public function display () {
+		http_response_code($this->responseCode);
+		
+		echo $this->getJSON();
+		exit();
 	}
 }
