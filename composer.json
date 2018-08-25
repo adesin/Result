@@ -1,0 +1,14 @@
+{
+  "name": "desin/result",
+  "description": "Класс описывает результат. Используется для формирования JSON ответов, а также для сбора результатов операций.",
+  "license": "proprietary",
+  "authors": [
+	{
+	  "name": "Anton Desin",
+	  "email": "anton.desin@gmail.com"
+	}
+  ],
+  "require": {
+	"php": ">=7.1"
+  }
+}
