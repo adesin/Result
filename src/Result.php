@@ -21,9 +21,9 @@ class Result {
 	public $message = [];
 	
 	/**
-	 * @var array|null Данные результата
+	 * @var array Данные результата
 	 */
-	public $data = null;
+	public $data = [];
 	
 	/**
 	 * @var boolean Статус результата
@@ -33,7 +33,7 @@ class Result {
 	/**
 	 * @var integer Код ответа сервера
 	 */
-	public $responseCode = 200;
+	public $responseCode = null;
 	
 	/**
 	 * Метод проверяет, имеет ли результат статус "Успешно"
@@ -61,6 +61,9 @@ class Result {
 	 */
 	public function setSuccess(array $data=[]){
 		$this->success = true;
+		if(!$this->responseCode){
+			$this->setResponseCode(200);
+		}
 		$this->setData($data);
 	}
 	
@@ -70,7 +73,7 @@ class Result {
 	 * @param string $message Сообщение об ошибке
 	 */
 	public function setError(string $message){
-		$this->setResponseCode(500);
+		$this->setResponseCode(400);
 		
 		$this->success = false;
 		$this->error[] = $message;
