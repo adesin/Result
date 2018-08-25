@@ -1,5 +1,6 @@
 {
   "name": "desin/result",
+  "version": "1.0.0",
   "description": "Класс описывает результат. Используется для формирования JSON ответов, а также для сбора результатов операций.",
   "license": "proprietary",
   "authors": [
