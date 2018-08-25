@@ -2,7 +2,7 @@
   "name": "desin/result",
   "description": "Класс описывает результат. Используется для формирования JSON ответов, а также для сбора результатов операций",
   "license": "proprietary",
-  "minimum-stability": "dev",
+  "minimum-stability": "alpha",
   "authors": [
 	{
 	  "name": "Anton Desin",
