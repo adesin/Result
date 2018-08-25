@@ -16,7 +16,9 @@ class Result {
 	/**
 	 * @var array Массив сообщений об ошибках
 	 */
-	public $error = array();
+	public $error = [];
+	
+	public $message = [];
 	
 	/**
 	 * @var array|null Данные результата
@@ -57,9 +59,9 @@ class Result {
 	 * @param array|null $data Данные результата
 	 * @return void
 	 */
-	public function setSuccess($data = null){
+	public function setSuccess(array $data=[]){
 		$this->success = true;
-		if($data) $this->data = $data;
+		$this->setData($data);
 	}
 	
 	/**
@@ -67,17 +69,33 @@ class Result {
 	 *
 	 * @param string $message Сообщение об ошибке
 	 */
-	public function setError($message){
+	public function setError(string $message){
 		$this->setResponseCode(500);
 		
 		$this->success = false;
 		$this->error[] = $message;
 	}
 	
-	public function setData($data){
-		if($data) $this->data = $data;
+	/**
+	 * Добавление сообщения, не относящегося к статусу "Ошибка"
+	 * @param string $message Текст сообщения
+	 */
+	public function addMessage(string $message){
+		$this->message[] = $message;
 	}
 	
+	/**
+	 * Метод записывает данные для результата
+	 * @param array $data Массив данных
+	 */
+	public function setData(array $data){
+		$this->data = array_merge($this->data, $data);
+	}
+	
+	/**
+	 * Метод устанавливает код HTTP ответа сервера
+	 * @param $code Код ответа
+	 */
 	public function setResponseCode ($code) {
 		$this->responseCode = $code;
 	}
@@ -87,10 +105,10 @@ class Result {
 	 *
 	 * @return string Текст ошибки
 	 */
-	public function lastError(){
-		$strError = end($this->error);
-		if(!$strError) $strError = '';
-		return $strError;
+	public function lastMessage(){
+		$strMessage = $this->success?end($this->message):end($this->error);
+		if(!$strMessage) $strMessage = '';
+		return $strMessage;
 	}
 	
 	/**
@@ -120,7 +138,7 @@ class Result {
 	public function getArray(){
 		$result = array(
 			'success' => $this->success,
-			'message' => $this->lastError(),
+			'message' => $this->lastMessage(),
 			'data' => $this->data,
 			'code' => $this->responseCode,
 		);
