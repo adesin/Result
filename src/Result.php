@@ -72,8 +72,12 @@ class Result {
 	 *
 	 * @param string $message Сообщение об ошибке
 	 */
-	public function setError(string $message){
-		$this->setResponseCode(400);
+	public function setError(string $message, $setErrorCode=false){
+		if($setErrorCode===true){
+			$this->setResponseCode(400);
+		}else{
+			$this->setResponseCode(200);
+		}
 		
 		$this->success = false;
 		$this->error[] = $message;
