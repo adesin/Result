@@ -169,6 +169,11 @@ class Result {
 	public function display () {
 		http_response_code($this->responseCode);
 		
+		header('Access-Control-Allow-Origin: *');
+		header('Content-Type: application/json; charset=utf-8');
+		header('timing-allow-origin: *');
+		header('x-frame-options: SAMEORIGIN');
+		
 		echo $this->getJSON();
 		exit();
 	}
